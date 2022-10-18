@@ -2,9 +2,13 @@ Package: dataplan
 Title: Unified Interface for Data Management
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person(given = "Justin",
+           family = "Singh-Mohudpur",
+           role = c("aut", "cre"),
+           email = "justin@justinsingh.me",
+           comment = c(ORCID = "0000-0002-5233-5799"))
+Description: Provides an interface to managing data processes
+             as plans, similarly to the recipes package.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
