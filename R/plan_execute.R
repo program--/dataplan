@@ -24,5 +24,5 @@ plan_execute <- function(plan_obj) {
         ))
     }
 
-    x
+    invisible(x)
 }
