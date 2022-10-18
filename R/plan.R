@@ -3,10 +3,12 @@
 #' @export
 plan <- function(name) {
     out <- list(
-        name       = name,
-        source     = NULL,
-        reader     = NULL,
-        transforms = list()
+        name        = name,
+        source      = NULL,
+        reader      = NULL,
+        transforms  = list(),
+        writer      = NULL,
+        destination = NULL
     )
 
     class(out) <- "data_plan"
@@ -14,7 +16,7 @@ plan <- function(name) {
 }
 
 #' Add a source to a data plan
-#' @param plan_obj a `data_plan` object.
+#' @inheritParams plan_execute
 #' @param src a URI
 #' @return `plan_obj`
 #' @export
@@ -24,7 +26,7 @@ plan_source <- function(plan_obj, src) {
 }
 
 #' Add a destination to a data plan
-#' @param plan_obj a `data_plan` object.
+#' @inheritParams plan_execute
 #' @param dst a URI
 #' @return `plan_obj`
 #' @export
@@ -34,7 +36,7 @@ plan_destination <- function(plan_obj, dst) {
 }
 
 #' Add a reader to a data plan
-#' @inheritParams plan_source
+#' @inheritParams plan_execute
 #' @param reader a function that takes a character object as its first parameter
 #' @param ... additional parameters passed to `reader` when executed
 #' @return `plan_obj`
@@ -48,6 +50,13 @@ plan_reader <- function(plan_obj, reader, ...) {
     plan_obj
 }
 
+#' Add a writer to a data plan
+#' @inheritParams plan_execute
+#' @param writer a function that takes data as the first parameter
+#'               and a destination as the second
+#' @param ... additional parameters passed to `writer` when executed
+#' @return `plan_obj`
+#' @export
 plan_writer <- function(plan_obj, writer, ...) {
     plan_obj$writer <- list(
         fn = writer,
@@ -57,6 +66,12 @@ plan_writer <- function(plan_obj, writer, ...) {
     plan_obj
 }
 
+#' Add a transformation to a data plan
+#' @inheritParams plan_execute
+#' @param fn a function that takes data as the first parameter
+#' @param ... additional parameters passed to `fn` when executed
+#' @return `plan_obj`
+#' @export
 plan_transform <- function(plan_obj, fn, ...) {
     plan_obj$transforms <- append(plan_obj$transforms, list(list(
         fn = fn,
@@ -64,17 +79,4 @@ plan_transform <- function(plan_obj, fn, ...) {
     )))
 
     plan_obj
-}
-
-plan_execute <- function(plan_obj) {
-    x <- do.call(
-        plan_obj$reader$fn,
-        c(list(plan_obj$source), plan_obj$reader$opts)
-    )
-
-    for (transformer in plan_obj$transforms) {
-        x <- do.call(transformer$fn, c(list(x), transformer$opts))
-    }
-
-    x
 }
