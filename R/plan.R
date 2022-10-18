@@ -69,13 +69,15 @@ plan_writer <- function(plan_obj, writer, ...) {
 
 #' Add a transformation to a data plan
 #' @inheritParams plan_execute
+#' @param desc description of transformer
 #' @param fn a function that takes data as the first parameter
 #' @param ... additional parameters passed to `fn` when executed
 #' @return `plan_obj`
 #' @export
-plan_transform <- function(plan_obj, fn, ...) {
+plan_transform <- function(plan_obj, desc, fn, ...) {
     plan_obj$transforms <- append(plan_obj$transforms, list(list(
         fn = fn,
+        desc = desc,
         opts = list(...)
     )))
 
