@@ -1,4 +1,5 @@
 #' Create a new data plan
+#' @param name Name of data plan
 #' @return a new data plan
 #' @export
 plan <- function(name) {

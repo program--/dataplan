@@ -6,6 +6,9 @@
 \usage{
 plan(name)
 }
+\arguments{
+\item{name}{Name of data plan}
+}
 \value{
 a new data plan
 }
