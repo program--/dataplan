@@ -16,13 +16,12 @@ testthat::test_that("plan is created and executes as expected", {
 
     write.csv(mtcars, temp_infile)
 
-    example_plan <-
-        plan("mytestplan") |>
-        plan_source(temp_infile) |>
-        plan_reader(read.csv) |>
-        plan_transform(`[`, "mpg") |>
-        plan_writer(write.csv) |>
-        plan_destination(temp_outfile)
+    example_plan <- plan("mytestplan")
+    example_plan <- plan_source(example_plan, temp_infile)
+    example_plan <- plan_reader(example_plan, read.csv)
+    example_plan <- plan_transform(example_plan, `[`, "mpg")
+    example_plan <- plan_writer(example_plan, write.csv)
+    example_plan <- plan_destination(example_plan, temp_outfile)
 
     testthat::expect_identical(
         example_plan$name, "mytestplan"
